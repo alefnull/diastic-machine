@@ -74,9 +74,16 @@ submit.addEventListener('click', () => {
 			}
 			// pick a random word from the words array
 			let word = matchingWords[Math.floor(Math.random() * matchingWords.length)];
-			// if chosen word has duplicates in dataArray, remove this instance of the word
-			while (dataArray.indexOf(word) !== -1) {
-				dataArray.splice(dataArray.indexOf(word), 1);
+			// find the indices of every instance of the choosen word in dataArray
+			let indices = [];
+			for (let k = 0; k < dataArray.length; k++) {
+				if (dataArray[k] === word) {
+					indices.push(k);
+				}
+			}
+			// remove all the instances of the choosen word from dataArray
+			for (let l=0; l<indices.length; l++) {
+				dataArray.splice(indices[l], 1);
 			}
 			// if phrase is empty, add the current seed word
 			// otherwise, add the current seed word after a space
