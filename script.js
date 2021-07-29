@@ -47,11 +47,12 @@ submit.addEventListener('click', () => {
 		alert('please enter some source text as input.');
 		return;
 	}
-	let formattedData = rawData.toLowerCase();
 	// replace line feeds and carrige returns with spaces
-	formattedData = formattedData.replace(/[\n\r]/g, ' ');
+	let formattedData = rawData.replace(/[\n\r]/g, ' ');
 	// split the text into an array
 	let dataArray = formattedData.split(' ');
+	// for each entry in the array, strip non-letter characters
+	dataArray = dataArray.map(strip);
 	// split seedText into array of seed words, 'seedArray'
 	const seedArray = seedText.split(' ');
 	// iterate through seed words in 'seedArray'
@@ -73,26 +74,21 @@ submit.addEventListener('click', () => {
 				continue;
 			}
 			// pick a random word from the words array
-			let word = matchingWords[Math.floor(Math.random() * matchingWords.length)];
-			// find the indices of every instance of the choosen word in dataArray
-			let indices = [];
-			for (let k = 0; k < dataArray.length; k++) {
-				if (dataArray[k] === word) {
-					indices.push(k);
-				}
-			}
-			// remove all the instances of the choosen word from dataArray
-			for (let l=0; l<indices.length; l++) {
-				dataArray.splice(indices[l], 1);
-			}
+			let chosenWord = matchingWords[Math.floor(Math.random() * matchingWords.length)];
+			// console.log('chosen word is: ' + chosenWord);
+
+			// remove all instances of chosen word from dataArray
+			dataArray = dataArray.filter(word => word !== chosenWord);
+
 			// if phrase is empty, add the current seed word
 			// otherwise, add the current seed word after a space
 			if (phrase === '') {
-				phrase += strip(word);
+				phrase += strip(chosenWord);
 			}
 			else {
-				phrase += ' ' + strip(word);
+				phrase += ' ' + strip(chosenWord);
 			}
+			// console.log('current phrase:' + '"' + phrase + '"');
 		}
 	}
 	// add endResult to result
