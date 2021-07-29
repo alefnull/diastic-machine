@@ -11,9 +11,9 @@ h1 {
 	padding: 5px;
 }
 
-p {
+#description {
 	text-align: center;
-	padding: 15px;
+	padding: 15px 50px;
 }
 
 #buttons {
